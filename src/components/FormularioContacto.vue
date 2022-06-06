@@ -1,6 +1,6 @@
 <template>
-  <div class="container mt-4">
-  
+  <div class="container mt-4"> 
+      
     <div class="row">
       <div class="col-5">
         <form @submit.prevent="validar" >
@@ -9,13 +9,13 @@
             <input
               type="text"
               placeholder="Nombre...."
-              v-model="formulario.nombre"
-              class="form-control w-75 d-inline"             
+              v-model="$store.state.formulario.nombre"
+              class="form-control w-75 d-inline "             
               id="nombre"
               aria-describedby="emailHelp"
               autocomplete="off"                 
-            />           
-            <p class=" text-danger" v-if="enviado && !$v.formulario.nombre.required ">{{campoVacio}}</p>
+            />                
+            <p class=" text-danger " v-if="enviado && !$v.formulario.nombre.required ">{{campoVacio}}</p>
             <p class=" text-danger" v-if="enviado && !$v.formulario.nombre.minLength ">Ingrese un nombre de al menos 3 caracteres</p>
             <p class=" text-success d-inline" v-if="$v.formulario.nombre.minLength && $v.formulario.nombre.required "><i class="bi bi-check-circle-fill fs-4 ms-2"></i></p>          
           </div>
@@ -25,7 +25,7 @@
             <input
               type="text"
               placeholder="Email...."
-              v-model="formulario.email"
+              v-model="$store.state.formulario.email"
               class="form-control w-75 d-inline"             
               id="email"
               aria-describedby="emailHelp"
@@ -41,7 +41,7 @@
             <input
               type="password"
               placeholder="Contraseña....."
-              v-model="formulario.pass"
+              v-model="$store.state.formulario.pass"
               class="form-control w-75 d-inline"             
               id="pass"
               aria-describedby="emailHelp"
@@ -57,15 +57,15 @@
             <input
               type="password"
               placeholder="Confirmar Contraseña....."
-              v-model="formulario.confirmarPass"
+              v-model="$store.state.formulario.confirmarPass"
               class="form-control w-75 d-inline"             
               id="confirmPass"
               aria-describedby="emailHelp"
               autocomplete="off"              
             />
            
-            <p class=" text-danger" v-if="enviado && !$v.formulario.confirmarPass.popo ">Las contraseñas deben ser iguales</p>
-            <p class=" text-success d-inline" v-if="$v.formulario.confirmarPass.required && $v.formulario.confirmarPass.popo "><i class="bi bi-check-circle-fill fs-4 ms-2"></i></p>                
+            <p class=" text-danger" v-if="enviado && !$v.formulario.confirmarPass.pass ">Las contraseñas deben ser iguales</p>
+            <p class=" text-success d-inline" v-if="$v.formulario.confirmarPass.required && $v.formulario.confirmarPass.pass "><i class="bi bi-check-circle-fill fs-4 ms-2"></i></p>                
           </div>
           
           <button type="submit" class="btn btn-primary mt-3">Registrarse</button>
@@ -83,34 +83,18 @@ export default {
     return {    
       enviado:false,
       campoVacio: '',
-      formulario:{
-          nombre: "",
-          email:'',
-          pass:'',
-          confirmarPass:''
-      }
+      formulario: this.$store.state.formulario
     };
   },
   methods: {
     validar(){
-      this.enviado=true;
-      
-       
+      this.enviado=true;       
       if(this.$v.$invalid){
         this.campoVacio='Este Campo esta vacío'
         return false;
       }      
-     
-      this.$emit("datosUsuario", this.formulario)
-     this.resetearFormulario()
-    },
-    resetearFormulario(){    
-    
-        this.formulario.nombre=""
-        this.formulario.email=""
-        this.formulario.pass=""
-        this.formulario.confirmarPass=""
-        this.campoVacio=""
+      this.$store.dispatch('formulario')    
+      this.$store.dispatch('resetearFormulario')
     }
   },
   validations: {
@@ -129,7 +113,7 @@ export default {
       },
       confirmarPass:{
         required,
-        popo: sameAs("pass")
+        pass: sameAs("pass")
       }
      
     },    
@@ -137,4 +121,4 @@ export default {
 };
 </script>
 
-<style></style>
+

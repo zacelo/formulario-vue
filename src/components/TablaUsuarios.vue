@@ -6,7 +6,7 @@
           <thead>
             <tr>
               <th 
-                v-for="(tit, index) in titulos"
+                v-for="(tit, index) in $store.getters.titulosTabla"
                 :key="index"
                 class="bg-warning "
               >
@@ -15,7 +15,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(user, index) in propUsuarios" :key="index" >
+            <tr v-for="(user, index) in $store.getters.usuariosRegistrados" :key="index" >
               <th class="fw-normal">{{ user.nombre }}</th>
               <th class="fw-normal">{{ user.email }}</th>
               <th class="fw-normal">{{ user.pass }}</th>
@@ -27,21 +27,5 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "TablaUsuarios",
-  data() {
-    return {
-      titulos: ["Nombre", "Email", "Contraseña"],
-    };
-  },
-  props: {
-    propUsuarios: {
-      type: Array,
-    },
-  },
-};
-</script>
 
-<style lang="css" scoped>
-</style>
+
